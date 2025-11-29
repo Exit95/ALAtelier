@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Impressum - ATELIER KL"
+  description="Impressum und rechtliche Informationen zu ATELIER KL"
+  noIndex={true}
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Impressum</h1>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="legal-content">
+        <h2>Angaben gemäß § 5 TMG</h2>
+        <p>
+          Katharina Lanvermann<br>
+          ATELIER KL<br>
+          Musterstraße 123<br>
+          48143 Münster<br>
+          Deutschland
+        </p>
+
+        <h2>Kontakt</h2>
+        <p>
+          Telefon: +49 (0) 123 456 789<br>
+          E-Mail: info@atelier-kl.de
+        </p>
+
+        <h2>Umsatzsteuer-ID</h2>
+        <p>
+          Umsatzsteuer-Identifikationsnummer gemäß § 27 a Umsatzsteuergesetz:<br>
+          DE123456789
+        </p>
+
+        <h2>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h2>
+        <p>
+          Katharina Lanvermann<br>
+          Musterstraße 123<br>
+          48143 Münster
+        </p>
+
+        <h2>Haftungsausschluss</h2>
+        
+        <h3>Haftung für Inhalte</h3>
+        <p>
+          Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit,
+          Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen.
+        </p>
+
+        <h3>Haftung für Links</h3>
+        <p>
+          Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen
+          Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen.
+        </p>
+
+        <h3>Urheberrecht</h3>
+        <p>
+          Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen
+          dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art
+          der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen
+          Zustimmung des jeweiligen Autors bzw. Erstellers.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: var(--space-8) 0 var(--space-6);
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .section {
+    padding: var(--space-10) 0;
+  }
+
+  .legal-content {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .legal-content h2 {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+  }
+
+  .legal-content h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-content h3 {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .legal-content p {
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+  }
+</style>
+

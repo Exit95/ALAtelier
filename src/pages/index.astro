@@ -1,0 +1,452 @@
+---
+import Layout from '../layouts/Layout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import Button from '../components/ui/Button.astro';
+import { getCollection } from 'astro:content';
+
+// Get featured artworks and workshops
+const allArtworks = await getCollection('artworks');
+const featuredArtworks = allArtworks.filter(artwork => artwork.data.featured).slice(0, 3);
+
+const allWorkshops = await getCollection('workshops');
+const upcomingWorkshops = allWorkshops
+  .filter(workshop => workshop.data.status === 'booking' || workshop.data.status === 'upcoming')
+  .slice(0, 2);
+
+const testimonials = await getCollection('testimonials');
+const featuredTestimonials = testimonials.filter(t => t.data.featured).slice(0, 2);
+---
+
+<Layout
+  title="ATELIER KL - Abstrakte Kunst & Kreative Workshops | Katharina Lanvermann"
+  description="Entdecken Sie einzigartige abstrakte Kunstwerke und kreative Workshops im ATELIER KL. Individuelle Auftragsarbeiten und persönliche Beratung von Katharina Lanvermann."
+>
+  <script type="application/ld+json" slot="head" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "ATELIER KL",
+    "description": "Abstrakte Kunst und kreative Workshops",
+    "image": "https://atelier-kl.de/logo.png",
+    "url": "https://atelier-kl.de",
+    "telephone": "+49-123-456789",
+    "email": "info@atelier-kl.de",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Musterstraße 123",
+      "addressLocality": "Münster",
+      "postalCode": "48143",
+      "addressCountry": "DE"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "10:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "10:00",
+        "closes": "14:00"
+      }
+    ],
+    "priceRange": "€€",
+    "founder": {
+      "@type": "Person",
+      "name": "Katharina Lanvermann",
+      "jobTitle": "Künstlerin"
+    }
+  })} />
+
+  <!-- Hero Section -->
+  <HeroSection
+    title="Kunst, die Räume verwandelt"
+    subtitle="Entdecken Sie einzigartige abstrakte Kunstwerke und erleben Sie kreative Workshops im ATELIER KL"
+    primaryCTA={{ label: 'Werke entdecken', href: '/werke' }}
+    secondaryCTA={{ label: 'Workshop buchen', href: '/workshops' }}
+    align="center"
+  />
+
+  <!-- Artist Introduction -->
+  <section class="section">
+    <div class="container">
+      <div class="intro-grid">
+        <div class="intro-image">
+          <img src="/images/artist-placeholder.jpg" alt="Katharina Lanvermann" loading="lazy" />
+        </div>
+        <div class="intro-content">
+          <h2>Willkommen im ATELIER KL</h2>
+          <p>
+            Ich bin Katharina Lanvermann, abstrakte Künstlerin mit Leidenschaft für Farben, Formen und Texturen.
+            In meinem Atelier entstehen einzigartige Kunstwerke, die Emotionen wecken und Räume zum Leben erwecken.
+          </p>
+          <p>
+            Ob Sie ein Kunstwerk für Ihr Zuhause suchen, eine individuelle Auftragsarbeit wünschen oder
+            selbst kreativ werden möchten – ich begleite Sie gerne auf Ihrer künstlerischen Reise.
+          </p>
+          <Button href="/ueber-mich" variant="outline">Mehr über mich</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Artworks -->
+  {featuredArtworks.length > 0 && (
+    <section class="section bg-gray">
+      <div class="container">
+        <div class="section-header">
+          <h2>Ausgewählte Werke</h2>
+          <Button href="/werke" variant="outline">Alle Werke ansehen</Button>
+        </div>
+        <div class="artwork-grid">
+          {featuredArtworks.map(artwork => (
+            <article class="artwork-card">
+              <div class="artwork-image">
+                <img src="/images/placeholder-artwork.jpg" alt={artwork.data.title} loading="lazy" />
+              </div>
+              <div class="artwork-info">
+                <h3>{artwork.data.title}</h3>
+                <p class="artwork-meta">
+                  {artwork.data.technique} • {artwork.data.size.width}×{artwork.data.size.height} {artwork.data.size.unit}
+                </p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Commission Process -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header center">
+        <h2>Individuelle Auftragsarbeiten</h2>
+        <p class="section-subtitle">
+          Lassen Sie Ihre Vision Wirklichkeit werden – mit einem maßgeschneiderten Kunstwerk,
+          das perfekt zu Ihrem Raum und Ihrer Persönlichkeit passt.
+        </p>
+      </div>
+
+      <div class="process-grid">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <h3>Erstgespräch</h3>
+          <p>Wir besprechen Ihre Vorstellungen, Farbwünsche und den vorgesehenen Raum.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <h3>Konzept</h3>
+          <p>Ich erstelle ein individuelles Konzept mit Skizzen und Farbmustern.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <h3>Umsetzung</h3>
+          <p>Nach Ihrer Freigabe beginne ich mit der Ausführung Ihres Kunstwerks.</p>
+        </div>
+        <div class="process-step">
+          <div class="step-number">4</div>
+          <h3>Übergabe</h3>
+          <p>Sie erhalten Ihr fertiges Unikat – bereit, Ihren Raum zu verwandeln.</p>
+        </div>
+      </div>
+
+      <div class="text-center mt-6">
+        <Button href="/auftragsarbeiten" variant="primary" size="lg">
+          Jetzt Kunstwerk anfragen
+        </Button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Workshops -->
+  {upcomingWorkshops.length > 0 && (
+    <section class="section bg-gray">
+      <div class="container">
+        <div class="section-header">
+          <h2>Kreative Workshops</h2>
+          <Button href="/workshops" variant="outline">Alle Workshops</Button>
+        </div>
+        <p class="section-subtitle">
+          Entdecken Sie Ihre Kreativität in kleinen Gruppen mit persönlicher Betreuung.
+        </p>
+        <div class="workshop-preview">
+          {upcomingWorkshops.map(workshop => {
+            const formattedDate = new Intl.DateTimeFormat('de-DE', {
+              day: 'numeric',
+              month: 'long',
+              year: 'numeric'
+            }).format(workshop.data.date);
+
+            return (
+              <div class="workshop-preview-card">
+                <h3>{workshop.data.title}</h3>
+                <p>{workshop.data.description}</p>
+                <div class="workshop-preview-meta">
+                  <span>📅 {formattedDate}</span>
+                  <span>⏱️ {workshop.data.duration} Stunden</span>
+                  <span>💰 {workshop.data.price} €</span>
+                </div>
+                <Button href="/workshops" variant="primary">Mehr erfahren</Button>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Testimonials -->
+  {featuredTestimonials.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <h2 class="text-center mb-6">Das sagen meine Kunden</h2>
+        <div class="testimonial-grid">
+          {featuredTestimonials.map(testimonial => (
+            <blockquote class="testimonial">
+              <p class="testimonial-text">"{testimonial.data.text}"</p>
+              <footer class="testimonial-footer">
+                <strong>{testimonial.data.name}</strong>
+                {testimonial.data.role && <span> • {testimonial.data.role}</span>}
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA Section -->
+  <section class="section cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>Bereit für Ihr eigenes Kunstwerk?</h2>
+        <p>Kontaktieren Sie mich für eine persönliche Beratung oder besuchen Sie mein Atelier.</p>
+        <div class="cta-buttons">
+          <Button href="/kontakt" variant="primary" size="lg">
+            Jetzt Kontakt aufnehmen
+          </Button>
+          <Button href="/werke" variant="secondary" size="lg">
+            Galerie durchstöbern
+          </Button>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section {
+    padding: var(--space-10) 0;
+  }
+
+  .bg-gray {
+    background-color: var(--color-gray-50);
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .section-header.center {
+    flex-direction: column;
+    text-align: center;
+    gap: var(--space-2);
+  }
+
+  .section-subtitle {
+    font-size: var(--font-size-lg);
+    color: var(--color-gray-700);
+    max-width: 70ch;
+    margin: 0 auto var(--space-6);
+  }
+
+  /* Intro Grid */
+  .intro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .intro-image img {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .intro-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  /* Artwork Grid */
+  .artwork-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .artwork-card {
+    background: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-base);
+  }
+
+  .artwork-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .artwork-image {
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+  }
+
+  .artwork-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .artwork-info {
+    padding: var(--space-3);
+  }
+
+  .artwork-meta {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+  }
+
+  /* Process Grid */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-6);
+    margin-bottom: var(--space-6);
+  }
+
+  .process-step {
+    text-align: center;
+  }
+
+  .step-number {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto var(--space-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-brand-beige);
+    border-radius: 50%;
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+  }
+
+  /* Workshop Preview */
+  .workshop-preview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .workshop-preview-card {
+    background: var(--color-white);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .workshop-preview-meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+  }
+
+  /* Testimonials */
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .testimonial {
+    background: var(--color-gray-50);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-brand-beige);
+  }
+
+  .testimonial-text {
+    font-size: var(--font-size-lg);
+    line-height: var(--line-height-relaxed);
+    font-style: italic;
+    margin-bottom: var(--space-3);
+  }
+
+  .testimonial-footer {
+    font-size: var(--font-size-sm);
+    color: var(--color-gray-700);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: linear-gradient(135deg, var(--color-brand-beige) 0%, var(--color-olive) 100%);
+    color: var(--color-white);
+  }
+
+  .cta-content {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .cta-content h2 {
+    color: var(--color-white);
+    margin-bottom: var(--space-3);
+  }
+
+  .cta-content p {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-6);
+  }
+
+  .cta-buttons {
+    display: flex;
+    gap: var(--space-3);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 960px) {
+    .intro-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+  }
+
+  @media (max-width: 640px) {
+    .cta-buttons {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .cta-buttons :global(.btn) {
+      width: 100%;
+    }
+  }
+</style>
+

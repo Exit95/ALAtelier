@@ -1,0 +1,98 @@
+---
+interface Props {
+  title?: string;
+  message: string;
+  variant?: 'success' | 'error' | 'info' | 'warning';
+  class?: string;
+}
+
+const {
+  title,
+  message,
+  variant = 'info',
+  class: className = ''
+} = Astro.props;
+
+const variantClasses = {
+  success: 'alert-success',
+  error: 'alert-error',
+  info: 'alert-info',
+  warning: 'alert-warning'
+};
+
+const icons = {
+  success: '✓',
+  error: '✕',
+  info: 'ℹ',
+  warning: '⚠'
+};
+
+const classes = `alert ${variantClasses[variant]} ${className}`.trim();
+---
+
+<div class={classes} role="alert">
+  <div class="alert-icon" aria-hidden="true">{icons[variant]}</div>
+  <div class="alert-content">
+    {title && <div class="alert-title">{title}</div>}
+    <div class="alert-message">{message}</div>
+  </div>
+</div>
+
+<style>
+  .alert {
+    display: flex;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    border: 1px solid;
+  }
+
+  .alert-icon {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-lg);
+    font-weight: bold;
+  }
+
+  .alert-content {
+    flex: 1;
+  }
+
+  .alert-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .alert-message {
+    font-size: var(--font-size-sm);
+  }
+
+  .alert-success {
+    background-color: #d1fae5;
+    border-color: #10b981;
+    color: #065f46;
+  }
+
+  .alert-error {
+    background-color: #fee2e2;
+    border-color: #ef4444;
+    color: #991b1b;
+  }
+
+  .alert-info {
+    background-color: #dbeafe;
+    border-color: #3b82f6;
+    color: #1e40af;
+  }
+
+  .alert-warning {
+    background-color: #fef3c7;
+    border-color: #f59e0b;
+    color: #92400e;
+  }
+</style>
+

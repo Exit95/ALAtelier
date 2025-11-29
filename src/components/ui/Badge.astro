@@ -1,0 +1,59 @@
+---
+interface Props {
+  label: string;
+  variant?: 'available' | 'reserved' | 'sold' | 'info';
+  class?: string;
+}
+
+const {
+  label,
+  variant = 'info',
+  class: className = ''
+} = Astro.props;
+
+const variantClasses = {
+  available: 'badge-available',
+  reserved: 'badge-reserved',
+  sold: 'badge-sold',
+  info: 'badge-info'
+};
+
+const classes = `badge ${variantClasses[variant]} ${className}`.trim();
+---
+
+<span class={classes}>{label}</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+  }
+
+  .badge-available {
+    background-color: #d1fae5;
+    color: #065f46;
+  }
+
+  .badge-reserved {
+    background-color: #fef3c7;
+    color: #92400e;
+  }
+
+  .badge-sold {
+    background-color: #fee2e2;
+    color: #991b1b;
+  }
+
+  .badge-info {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-700);
+  }
+</style>
+

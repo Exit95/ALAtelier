@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="AGB - ATELIER KL"
+  description="Allgemeine Geschäftsbedingungen für Kunstwerke und Workshops"
+  noIndex={true}
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Allgemeine Geschäftsbedingungen</h1>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="legal-content">
+        <h2>1. Geltungsbereich</h2>
+        <p>
+          Diese Allgemeinen Geschäftsbedingungen gelten für alle Verträge über den Verkauf von
+          Kunstwerken und die Teilnahme an Workshops, die zwischen Katharina Lanvermann (ATELIER KL)
+          und dem Kunden geschlossen werden.
+        </p>
+
+        <h2>2. Vertragsschluss</h2>
+        <p>
+          Der Vertrag kommt durch die Annahme des Angebots durch den Kunden und die Bestätigung
+          durch ATELIER KL zustande.
+        </p>
+
+        <h2>3. Preise und Zahlung</h2>
+        <p>
+          Alle Preise verstehen sich inklusive der gesetzlichen Mehrwertsteuer. Bei Auftragsarbeiten
+          ist eine Anzahlung von 50% bei Auftragserteilung fällig, der Restbetrag bei Abholung oder
+          vor Versand.
+        </p>
+
+        <h2>4. Lieferung und Versand</h2>
+        <p>
+          Die Lieferzeit beträgt in der Regel 2-4 Wochen. Bei Auftragsarbeiten wird die Lieferzeit
+          individuell vereinbart. Versandkosten werden separat berechnet.
+        </p>
+
+        <h2>5. Workshops</h2>
+        <p>
+          Die Anmeldung zu Workshops ist verbindlich. Bei Absage bis 14 Tage vor Workshopbeginn
+          wird die volle Teilnahmegebühr erstattet. Bei späterer Absage erfolgt keine Erstattung,
+          es sei denn, der Platz kann anderweitig vergeben werden.
+        </p>
+
+        <h2>6. Urheberrecht</h2>
+        <p>
+          Alle Kunstwerke unterliegen dem Urheberrecht. Der Kunde erwirbt mit dem Kauf das Eigentum
+          am Werk, nicht jedoch die Urheberrechte. Eine Vervielfältigung oder kommerzielle Nutzung
+          bedarf der schriftlichen Zustimmung.
+        </p>
+
+        <h2>7. Gewährleistung</h2>
+        <p>
+          Es gelten die gesetzlichen Gewährleistungsrechte. Kunstwerke werden sorgfältig verpackt
+          und versandt. Transportschäden sind unverzüglich zu melden.
+        </p>
+
+        <h2>8. Widerrufsrecht</h2>
+        <p>
+          Bei Auftragsarbeiten, die nach Kundenwunsch angefertigt werden, besteht kein Widerrufsrecht.
+          Bei anderen Käufen gilt das gesetzliche Widerrufsrecht von 14 Tagen.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: var(--space-8) 0 var(--space-6);
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .section {
+    padding: var(--space-10) 0;
+  }
+
+  .legal-content {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .legal-content h2 {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+  }
+
+  .legal-content h2:first-child {
+    margin-top: 0;
+  }
+
+  .legal-content p {
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+  }
+</style>
+

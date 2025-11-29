@@ -1,0 +1,19 @@
+{
+  "title": "Herbstlicht",
+  "description": "Warme Erdtöne treffen auf kühle Akzente in dieser abstrakten Komposition, die die Stimmung des Herbstes einfängt.",
+  "technique": "Acryl",
+  "size": {
+    "width": 80,
+    "height": 100,
+    "depth": 2,
+    "unit": "cm"
+  },
+  "year": 2024,
+  "price": 850,
+  "availability": "available",
+  "image": "/images/placeholder-artwork.jpg",
+  "tags": ["abstrakt", "warm", "erdtöne"],
+  "featured": true,
+  "createdAt": "2024-01-15T00:00:00.000Z"
+}
+

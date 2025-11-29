@@ -1,0 +1,31 @@
+{
+  "title": "Abstrakte Malerei für Einsteiger",
+  "description": "Entdecken Sie die Welt der abstrakten Malerei in diesem praxisorientierten Workshop.",
+  "longDescription": "In diesem Workshop lernen Sie die Grundlagen der abstrakten Malerei kennen. Wir experimentieren mit verschiedenen Techniken, Farben und Materialien. Keine Vorkenntnisse erforderlich - nur die Freude am kreativen Ausdruck.",
+  "date": "2024-12-15T10:00:00.000Z",
+  "duration": 4,
+  "location": "ATELIER KL, Münster",
+  "address": {
+    "street": "Musterstraße 123",
+    "city": "Münster",
+    "zip": "48143",
+    "country": "Deutschland"
+  },
+  "maxParticipants": 8,
+  "currentParticipants": 5,
+  "price": 120,
+  "materials": [
+    "Acrylfarben",
+    "Leinwände (30x40cm)",
+    "Pinsel und Spachtel",
+    "Schürze"
+  ],
+  "requirements": [
+    "Keine Vorkenntnisse erforderlich",
+    "Bequeme Kleidung empfohlen"
+  ],
+  "featured": true,
+  "status": "booking",
+  "createdAt": "2024-11-01T00:00:00.000Z"
+}
+

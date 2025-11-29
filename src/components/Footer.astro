@@ -1,0 +1,154 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- About Section -->
+      <div class="footer-section">
+        <h3 class="footer-heading">ATELIER KL</h3>
+        <p class="footer-text">
+          Abstrakte Kunst und kreative Workshops von Katharina Lanvermann.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-section">
+        <h3 class="footer-heading">Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="/werke">Werke</a></li>
+          <li><a href="/auftragsarbeiten">Auftragsarbeiten</a></li>
+          <li><a href="/workshops">Workshops</a></li>
+          <li><a href="/ueber-mich">Über mich</a></li>
+          <li><a href="/kontakt">Kontakt</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact Info -->
+      <div class="footer-section">
+        <h3 class="footer-heading">Kontakt</h3>
+        <ul class="footer-links">
+          <li>
+            <a href="mailto:info@atelier-kl.de">info@atelier-kl.de</a>
+          </li>
+          <li>
+            <a href="tel:+49123456789">+49 (0) 123 456 789</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Legal -->
+      <div class="footer-section">
+        <h3 class="footer-heading">Rechtliches</h3>
+        <ul class="footer-links">
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/datenschutz">Datenschutz</a></li>
+          <li><a href="/rechtliches">AGB</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy; {currentYear} ATELIER KL. Alle Rechte vorbehalten.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-gray-50);
+    border-top: 1px solid var(--color-gray-200);
+    padding: clamp(2rem, 5vw, 4rem) 0 clamp(1rem, 2vw, 1.5rem);
+    margin-top: clamp(3rem, 6vw, 6rem);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-bottom: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .footer-section {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+  }
+
+  .footer-heading {
+    font-family: var(--font-headline);
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+
+  .footer-text {
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+    color: var(--color-gray-700);
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+  }
+
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.5rem, 1vw, 0.75rem);
+  }
+
+  .footer-links a {
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+    color: var(--color-gray-700);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+    /* Touch target */
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .footer-links a:hover {
+    color: var(--color-black);
+    text-decoration: underline;
+  }
+
+  .footer-bottom {
+    padding-top: clamp(1rem, 2vw, 1.5rem);
+    border-top: 1px solid var(--color-gray-200);
+    text-align: center;
+  }
+
+  .footer-bottom p {
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+    color: var(--color-gray-700);
+    margin: 0;
+  }
+
+  /* Mobile */
+  @media (max-width: 639px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .footer-section {
+      padding-bottom: var(--space-2);
+      border-bottom: 1px solid var(--color-gray-200);
+    }
+
+    .footer-section:last-child {
+      border-bottom: none;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 640px) and (max-width: 959px) {
+    .footer-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+

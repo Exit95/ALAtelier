@@ -1,0 +1,218 @@
+---
+interface FilterOption {
+  value: string;
+  label: string;
+  count?: number;
+}
+
+interface Props {
+  filters: {
+    label: string;
+    name: string;
+    options: FilterOption[];
+  }[];
+  class?: string;
+}
+
+const { filters, class: className = '' } = Astro.props;
+---
+
+<div class:list={['filter-bar', className]} data-filter-bar>
+  <div class="container">
+    <div class="filter-controls">
+      {filters.map(filter => (
+        <div class="filter-group">
+          <label class="filter-label" for={filter.name}>
+            {filter.label}
+          </label>
+          <div class="filter-options" role="group" aria-label={filter.label}>
+            <button
+              type="button"
+              class="filter-option active"
+              data-filter={filter.name}
+              data-value="all"
+              aria-pressed="true"
+            >
+              Alle
+            </button>
+            {filter.options.map(option => (
+              <button
+                type="button"
+                class="filter-option"
+                data-filter={filter.name}
+                data-value={option.value}
+                aria-pressed="false"
+              >
+                {option.label}
+                {option.count !== undefined && (
+                  <span class="filter-count">({option.count})</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+      
+      <button type="button" class="filter-reset" data-filter-reset>
+        Filter zurücksetzen
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  function initFilterBar() {
+    const filterBar = document.querySelector('[data-filter-bar]');
+    if (!filterBar) return;
+
+    const filterButtons = filterBar.querySelectorAll('.filter-option');
+    const resetButton = filterBar.querySelector('[data-filter-reset]');
+
+    // Store active filters
+    const activeFilters = new Map<string, string>();
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const filterName = button.getAttribute('data-filter');
+        const filterValue = button.getAttribute('data-value');
+        
+        if (!filterName || !filterValue) return;
+
+        // Deactivate siblings
+        const siblings = filterBar.querySelectorAll(`[data-filter="${filterName}"]`);
+        siblings.forEach(sibling => {
+          sibling.classList.remove('active');
+          sibling.setAttribute('aria-pressed', 'false');
+        });
+
+        // Activate clicked button
+        button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
+
+        // Update active filters
+        if (filterValue === 'all') {
+          activeFilters.delete(filterName);
+        } else {
+          activeFilters.set(filterName, filterValue);
+        }
+
+        // Dispatch custom event
+        const event = new CustomEvent('filterChange', {
+          detail: { filters: Object.fromEntries(activeFilters) }
+        });
+        filterBar.dispatchEvent(event);
+      });
+    });
+
+    // Reset all filters
+    if (resetButton) {
+      resetButton.addEventListener('click', () => {
+        filterButtons.forEach(button => {
+          const isAllButton = button.getAttribute('data-value') === 'all';
+          button.classList.toggle('active', isAllButton);
+          button.setAttribute('aria-pressed', String(isAllButton));
+        });
+
+        activeFilters.clear();
+
+        const event = new CustomEvent('filterChange', {
+          detail: { filters: {} }
+        });
+        filterBar.dispatchEvent(event);
+      });
+    }
+  }
+
+  // Initialize on page load
+  initFilterBar();
+
+  // Re-initialize on view transitions
+  document.addEventListener('astro:page-load', initFilterBar);
+</script>
+
+<style>
+  .filter-bar {
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+    padding: var(--space-4) 0;
+    position: sticky;
+    top: 77px; /* Header height */
+    z-index: calc(var(--z-sticky) - 1);
+  }
+
+  .filter-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+
+  .filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .filter-label {
+    font-size: var(--font-size-sm);
+    font-weight: 600;
+    color: var(--color-gray-700);
+  }
+
+  .filter-options {
+    display: flex;
+    gap: var(--space-1);
+    flex-wrap: wrap;
+  }
+
+  .filter-option {
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-sm);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-300);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .filter-option:hover {
+    border-color: var(--color-black);
+  }
+
+  .filter-option.active {
+    background-color: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
+  }
+
+  .filter-count {
+    opacity: 0.7;
+    margin-left: 0.25rem;
+  }
+
+  .filter-reset {
+    padding: 0.5rem 1rem;
+    font-size: var(--font-size-sm);
+    background: none;
+    border: none;
+    color: var(--color-gray-700);
+    text-decoration: underline;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .filter-reset:hover {
+    color: var(--color-black);
+  }
+
+  @media (max-width: 640px) {
+    .filter-controls {
+      flex-direction: column;
+    }
+
+    .filter-reset {
+      margin-left: 0;
+    }
+  }
+</style>
+

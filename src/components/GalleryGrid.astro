@@ -1,0 +1,251 @@
+---
+import { Image } from 'astro:assets';
+import Badge from './ui/Badge.astro';
+
+interface GalleryItem {
+  id: string;
+  title: string;
+  image: ImageMetadata | string;
+  technique?: string;
+  size?: string;
+  availability?: 'available' | 'reserved' | 'sold';
+  tags?: string[];
+}
+
+interface Props {
+  items: GalleryItem[];
+  emptyStateText?: string;
+  class?: string;
+}
+
+const {
+  items,
+  emptyStateText = 'Keine Werke gefunden.',
+  class: className = ''
+} = Astro.props;
+
+const availabilityLabels = {
+  available: 'Verfügbar',
+  reserved: 'Reserviert',
+  sold: 'Verkauft'
+};
+---
+
+<div class:list={['gallery-grid', className]} data-gallery-grid>
+  {items.length === 0 ? (
+    <div class="empty-state">
+      <p>{emptyStateText}</p>
+    </div>
+  ) : (
+    <div class="grid" data-gallery-items>
+      {items.map((item, index) => (
+        <article 
+          class="gallery-item" 
+          data-gallery-item
+          data-tags={item.tags?.join(',')}
+          data-technique={item.technique}
+          data-availability={item.availability}
+        >
+          <button
+            type="button"
+            class="gallery-item-button"
+            data-lightbox-trigger
+            data-index={index}
+            aria-label={`${item.title} vergrößern`}
+          >
+            <div class="gallery-item-image">
+              {typeof item.image === 'string' ? (
+                <img 
+                  src={item.image} 
+                  alt={item.title}
+                  loading="lazy"
+                  class="image"
+                />
+              ) : (
+                <Image 
+                  src={item.image} 
+                  alt={item.title}
+                  loading="lazy"
+                  class="image"
+                  widths={[320, 640, 960]}
+                  sizes="(max-width: 640px) 100vw, (max-width: 960px) 50vw, 33vw"
+                />
+              )}
+              {item.availability && (
+                <div class="gallery-item-badge">
+                  <Badge 
+                    label={availabilityLabels[item.availability]} 
+                    variant={item.availability} 
+                  />
+                </div>
+              )}
+            </div>
+            <div class="gallery-item-info">
+              <h3 class="gallery-item-title">{item.title}</h3>
+              {(item.technique || item.size) && (
+                <p class="gallery-item-meta">
+                  {item.technique && <span>{item.technique}</span>}
+                  {item.technique && item.size && <span class="separator">•</span>}
+                  {item.size && <span>{item.size}</span>}
+                </p>
+              )}
+            </div>
+          </button>
+        </article>
+      ))}
+    </div>
+  )}
+  
+  <div class="loading-state" data-loading hidden>
+    <p>Lädt...</p>
+  </div>
+</div>
+
+<style>
+  .gallery-grid {
+    padding: clamp(2rem, 4vw, 3rem) 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .gallery-item {
+    position: relative;
+    background-color: var(--color-white);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .gallery-item-button {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .gallery-item-image {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background-color: var(--color-gray-100);
+  }
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+
+  .gallery-item-button:hover .image {
+    transform: scale(1.05);
+  }
+
+  .gallery-item-badge {
+    position: absolute;
+    top: var(--space-2);
+    right: var(--space-2);
+  }
+
+  .gallery-item-info {
+    padding: clamp(0.75rem, 2vw, 1rem);
+  }
+
+  .gallery-item-title {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+
+  .gallery-item-meta {
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+    color: var(--color-gray-700);
+    margin: 0;
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .separator {
+    opacity: 0.5;
+  }
+
+  .empty-state,
+  .loading-state {
+    text-align: center;
+    padding: var(--space-8);
+    color: var(--color-gray-700);
+  }
+
+  .gallery-item[hidden] {
+    display: none;
+  }
+
+  /* Mobile: 1 column */
+  @media (max-width: 639px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+
+    .gallery-item-image {
+      aspect-ratio: 4 / 3;
+    }
+
+    .gallery-item-badge {
+      top: var(--space-1);
+      right: var(--space-1);
+    }
+  }
+
+  /* Tablet Portrait: 2 columns */
+  @media (min-width: 640px) and (max-width: 959px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+  }
+
+  /* Desktop Small: 3 columns */
+  @media (min-width: 960px) and (max-width: 1279px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  /* Desktop Large: 4 columns */
+  @media (min-width: 1280px) {
+    .grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  /* Touch devices: Disable hover effects */
+  @media (hover: none) {
+    .gallery-item:hover {
+      transform: none;
+    }
+
+    .gallery-item-button:hover .image {
+      transform: none;
+    }
+
+    /* Add active state for touch feedback */
+    .gallery-item-button:active .image {
+      transform: scale(0.98);
+    }
+  }
+</style>
+

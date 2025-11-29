@@ -1,0 +1,19 @@
+{
+  "title": "Meeresrauschen",
+  "description": "Dynamische Bewegungen in Blau- und Türkistönen erinnern an die Kraft des Ozeans.",
+  "technique": "Mischtechnik",
+  "size": {
+    "width": 120,
+    "height": 80,
+    "depth": 2,
+    "unit": "cm"
+  },
+  "year": 2024,
+  "price": 1200,
+  "availability": "reserved",
+  "image": "/images/placeholder-artwork.jpg",
+  "tags": ["abstrakt", "blau", "dynamisch"],
+  "featured": true,
+  "createdAt": "2024-02-20T00:00:00.000Z"
+}
+

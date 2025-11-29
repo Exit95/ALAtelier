@@ -1,0 +1,127 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Über mich - ATELIER KL | Katharina Lanvermann"
+  description="Lernen Sie Katharina Lanvermann kennen - abstrakte Künstlerin mit Leidenschaft für Farben, Formen und kreative Workshops."
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Über mich</h1>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="artist-grid">
+        <div class="artist-image">
+          <img src="/images/katharina-lanvermann.jpg" alt="Katharina Lanvermann" loading="lazy" />
+        </div>
+        <div class="artist-content">
+          <h2>Katharina Lanvermann</h2>
+          <p class="subtitle">Abstrakte Künstlerin</p>
+          
+          <div class="bio">
+            <p>
+              Willkommen in meinem Atelier! Ich bin Katharina Lanvermann, und meine Leidenschaft gilt
+              der abstrakten Malerei. Seit über 15 Jahren erschaffe ich Kunstwerke, die Emotionen
+              wecken und Räume verwandeln.
+            </p>
+            <p>
+              Meine Arbeiten entstehen aus dem Spiel mit Farben, Formen und Texturen. Jedes Werk
+              ist ein Unikat, das seine eigene Geschichte erzählt. Besonders fasziniert mich die
+              Wirkung von Farben auf unsere Stimmung und wie Kunst Räume zum Leben erwecken kann.
+            </p>
+            <p>
+              Neben meiner künstlerischen Arbeit liegt mir die Weitergabe meiner Erfahrungen am Herzen.
+              In meinen Workshops begleite ich Menschen dabei, ihre eigene Kreativität zu entdecken
+              und den Mut zu finden, sich künstlerisch auszudrücken.
+            </p>
+            <p>
+              Mein Atelier in Münster ist nicht nur mein Arbeitsplatz, sondern auch ein Ort der
+              Begegnung. Besuchen Sie mich gerne nach Vereinbarung und lassen Sie sich von meinen
+              aktuellen Werken inspirieren.
+            </p>
+          </div>
+
+          <div class="contact-info">
+            <h3>Kontakt</h3>
+            <p>
+              <strong>E-Mail:</strong> <a href="mailto:info@atelier-kl.de">info@atelier-kl.de</a><br>
+              <strong>Telefon:</strong> <a href="tel:+49123456789">+49 (0) 123 456 789</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: var(--space-8) 0 var(--space-6);
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+  }
+
+  .section {
+    padding: var(--space-10) 0;
+  }
+
+  .artist-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .artist-image img {
+    width: 100%;
+    border-radius: var(--radius-md);
+  }
+
+  .artist-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--color-gray-700);
+    margin: 0;
+  }
+
+  .bio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .bio p {
+    line-height: var(--line-height-relaxed);
+    margin: 0;
+  }
+
+  .contact-info {
+    padding: var(--space-4);
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-md);
+  }
+
+  .contact-info h3 {
+    margin-bottom: var(--space-2);
+  }
+
+  @media (max-width: 960px) {
+    .artist-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+

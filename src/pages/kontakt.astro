@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout
+  title="Kontakt - ATELIER KL | Jetzt Anfrage senden"
+  description="Kontaktieren Sie Katharina Lanvermann für Anfragen zu Kunstwerken, Auftragsarbeiten oder Workshops. Persönliche Beratung und schnelle Rückmeldung."
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Kontakt</h1>
+      <p class="page-intro">
+        Haben Sie Fragen zu meinen Werken, möchten eine Auftragsarbeit besprechen oder sich für
+        einen Workshop anmelden? Ich freue mich auf Ihre Nachricht!
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>ATELIER KL</h2>
+          <p class="subtitle">Katharina Lanvermann</p>
+
+          <div class="info-block">
+            <h3>Kontaktdaten</h3>
+            <p>
+              <strong>E-Mail:</strong><br>
+              <a href="mailto:info@atelier-kl.de">info@atelier-kl.de</a>
+            </p>
+            <p>
+              <strong>Telefon:</strong><br>
+              <a href="tel:+49123456789">+49 (0) 123 456 789</a>
+            </p>
+          </div>
+
+          <div class="info-block">
+            <h3>Atelier</h3>
+            <p>
+              Musterstraße 123<br>
+              48143 Münster<br>
+              Deutschland
+            </p>
+          </div>
+
+          <div class="info-block">
+            <h3>Öffnungszeiten</h3>
+            <p>
+              Besuche nach Vereinbarung<br>
+              Montag - Freitag: 10:00 - 18:00 Uhr<br>
+              Samstag: 10:00 - 14:00 Uhr
+            </p>
+          </div>
+
+          <div class="info-block">
+            <h3>Anfahrt</h3>
+            <p>
+              <strong>Mit dem Auto:</strong> Parkplätze direkt vor dem Atelier<br>
+              <strong>Mit öffentlichen Verkehrsmitteln:</strong> Bus 5, Haltestelle Musterplatz
+            </p>
+          </div>
+        </div>
+
+        <div class="contact-form-wrapper">
+          <h2>Nachricht senden</h2>
+          <p class="form-intro">
+            Füllen Sie das Formular aus und ich melde mich innerhalb von 24 Stunden bei Ihnen.
+          </p>
+          <ContactForm />
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: var(--space-8) 0 var(--space-6);
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .page-intro {
+    font-size: var(--font-size-lg);
+    color: var(--color-gray-700);
+    max-width: 70ch;
+  }
+
+  .section {
+    padding: var(--space-10) 0;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: var(--space-8);
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .subtitle {
+    font-size: var(--font-size-xl);
+    color: var(--color-gray-700);
+    margin: 0;
+  }
+
+  .info-block {
+    padding: var(--space-4);
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-md);
+  }
+
+  .info-block h3 {
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--space-2);
+  }
+
+  .info-block p {
+    margin-bottom: var(--space-2);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .info-block p:last-child {
+    margin-bottom: 0;
+  }
+
+  .contact-form-wrapper {
+    background-color: var(--color-white);
+    padding: var(--space-6);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+  }
+
+  .form-intro {
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (max-width: 960px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+

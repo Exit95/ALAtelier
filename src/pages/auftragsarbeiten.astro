@@ -1,0 +1,317 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/ui/Button.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+
+<Layout
+  title="Auftragsarbeiten - ATELIER KL | Individuelle Kunstwerke"
+  description="Lassen Sie Ihr individuelles Kunstwerk von Katharina Lanvermann erschaffen. Persönliche Beratung, maßgeschneiderte Konzepte und professionelle Umsetzung."
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Individuelle Auftragsarbeiten</h1>
+      <p class="page-intro">
+        Ihr Raum verdient ein Kunstwerk, das perfekt zu Ihnen passt. Gemeinsam erschaffen wir
+        ein Unikat, das Ihre Vision zum Leben erweckt.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="content-grid">
+        <div class="content-main">
+          <h2>Wie funktioniert eine Auftragsarbeit?</h2>
+          
+          <div class="process-steps">
+            <div class="step">
+              <div class="step-header">
+                <span class="step-number">1</span>
+                <h3>Erstgespräch & Beratung</h3>
+              </div>
+              <p>
+                In einem persönlichen Gespräch (vor Ort oder online) besprechen wir Ihre Wünsche,
+                Vorstellungen und den Raum, für den das Kunstwerk bestimmt ist. Wir klären Format,
+                Farbpalette und Stil.
+              </p>
+            </div>
+
+            <div class="step">
+              <div class="step-header">
+                <span class="step-number">2</span>
+                <h3>Konzeptentwicklung</h3>
+              </div>
+              <p>
+                Basierend auf unserem Gespräch erstelle ich ein individuelles Konzept mit Skizzen,
+                Farbmustern und Materialvorschlägen. Sie erhalten einen detaillierten Kostenvoranschlag.
+              </p>
+            </div>
+
+            <div class="step">
+              <div class="step-header">
+                <span class="step-number">3</span>
+                <h3>Umsetzung</h3>
+              </div>
+              <p>
+                Nach Ihrer Freigabe beginne ich mit der Arbeit an Ihrem Kunstwerk. Je nach Größe
+                und Komplexität beträgt die Bearbeitungszeit 2-6 Wochen. Auf Wunsch halte ich Sie
+                über den Fortschritt auf dem Laufenden.
+              </p>
+            </div>
+
+            <div class="step">
+              <div class="step-header">
+                <span class="step-number">4</span>
+                <h3>Übergabe & Installation</h3>
+              </div>
+              <p>
+                Ihr fertiges Kunstwerk wird sorgfältig verpackt und kann abgeholt oder geliefert werden.
+                Auf Wunsch unterstütze ich Sie bei der Installation und optimalen Platzierung.
+              </p>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <h3>Preisgestaltung</h3>
+            <p>
+              Die Kosten für eine Auftragsarbeit richten sich nach Format, Technik und Aufwand.
+              Als Richtwert können Sie mit folgenden Preisen rechnen:
+            </p>
+            <ul>
+              <li>Kleine Formate (bis 60×80 cm): ab 600 €</li>
+              <li>Mittlere Formate (bis 100×120 cm): ab 1.200 €</li>
+              <li>Große Formate (ab 120×150 cm): ab 2.000 €</li>
+            </ul>
+            <p>
+              <em>Alle Preise verstehen sich inklusive Material und Rahmen. Ein detailliertes
+              Angebot erhalten Sie nach dem Erstgespräch.</em>
+            </p>
+          </div>
+
+          <div class="info-box">
+            <h3>Häufige Fragen</h3>
+            <dl class="faq">
+              <dt>Wie lange dauert die Umsetzung?</dt>
+              <dd>Je nach Größe und Komplexität 2-6 Wochen ab Auftragsbestätigung.</dd>
+
+              <dt>Kann ich das Kunstwerk vor Fertigstellung sehen?</dt>
+              <dd>Ja, auf Wunsch sende ich Ihnen Zwischenfotos oder Sie können das Werk im Atelier besichtigen.</dd>
+
+              <dt>Was passiert, wenn mir das Ergebnis nicht gefällt?</dt>
+              <dd>Durch die enge Abstimmung im Vorfeld ist dies sehr selten. Sollte es dennoch der Fall sein, besprechen wir gemeinsam Anpassungsmöglichkeiten.</dd>
+
+              <dt>Liefern Sie auch überregional?</dt>
+              <dd>Ja, ich versende Kunstwerke deutschlandweit. Die Versandkosten werden separat berechnet.</dd>
+            </dl>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="sticky-sidebar">
+            <div class="cta-box">
+              <h3>Interesse geweckt?</h3>
+              <p>Kontaktieren Sie mich für ein unverbindliches Erstgespräch.</p>
+              <Button href="#kontaktformular" variant="primary" size="lg">
+                Jetzt anfragen
+              </Button>
+            </div>
+
+            <div class="examples-box">
+              <h4>Beispiele</h4>
+              <p>Sehen Sie sich einige meiner bisherigen Auftragsarbeiten an:</p>
+              <div class="example-images">
+                <img src="/images/placeholder-artwork.jpg" alt="Beispiel Auftragsarbeit 1" loading="lazy" />
+                <img src="/images/placeholder-artwork.jpg" alt="Beispiel Auftragsarbeit 2" loading="lazy" />
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-gray" id="kontaktformular">
+    <div class="container">
+      <div class="form-container">
+        <h2>Anfrage für Auftragsarbeit</h2>
+        <p class="form-intro">
+          Füllen Sie das Formular aus und beschreiben Sie Ihre Vorstellungen.
+          Ich melde mich innerhalb von 24 Stunden bei Ihnen.
+        </p>
+        <ContactForm />
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: var(--space-8) 0 var(--space-6);
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .page-intro {
+    font-size: var(--font-size-lg);
+    color: var(--color-gray-700);
+    max-width: 70ch;
+  }
+
+  .section {
+    padding: var(--space-10) 0;
+  }
+
+  .bg-gray {
+    background-color: var(--color-gray-50);
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: var(--space-8);
+  }
+
+  .content-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .step {
+    padding: var(--space-4);
+    background-color: var(--color-gray-50);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-brand-beige);
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .step-number {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-brand-beige);
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: var(--font-size-lg);
+    flex-shrink: 0;
+  }
+
+  .step h3 {
+    margin: 0;
+  }
+
+  .info-box {
+    padding: var(--space-4);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+  }
+
+  .info-box h3 {
+    margin-bottom: var(--space-3);
+  }
+
+  .info-box ul {
+    margin: var(--space-3) 0;
+    padding-left: var(--space-4);
+  }
+
+  .info-box li {
+    margin-bottom: var(--space-1);
+  }
+
+  .faq {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .faq dt {
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+  }
+
+  .faq dd {
+    margin: 0;
+    color: var(--color-gray-700);
+  }
+
+  .sticky-sidebar {
+    position: sticky;
+    top: calc(77px + var(--space-4));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .cta-box,
+  .examples-box {
+    padding: var(--space-4);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-gray-200);
+    border-radius: var(--radius-md);
+  }
+
+  .cta-box h3,
+  .examples-box h4 {
+    margin-bottom: var(--space-2);
+  }
+
+  .cta-box p,
+  .examples-box p {
+    margin-bottom: var(--space-3);
+  }
+
+  .example-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+  }
+
+  .example-images img {
+    width: 100%;
+    border-radius: var(--radius-sm);
+  }
+
+  .form-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .form-intro {
+    font-size: var(--font-size-lg);
+    color: var(--color-gray-700);
+    margin-bottom: var(--space-6);
+  }
+
+  @media (max-width: 960px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sticky-sidebar {
+      position: static;
+    }
+  }
+</style>
+

@@ -1,0 +1,353 @@
+---
+import Alert from './ui/Alert.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<form class:list={['contact-form', className]} data-contact-form>
+  <div class="form-group">
+    <label for="name" class="form-label">
+      Name <span class="required">*</span>
+    </label>
+    <input
+      type="text"
+      id="name"
+      name="name"
+      class="form-input"
+      required
+      aria-required="true"
+    />
+    <span class="form-error" data-error="name"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="email" class="form-label">
+      E-Mail <span class="required">*</span>
+    </label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      class="form-input"
+      required
+      aria-required="true"
+    />
+    <span class="form-error" data-error="email"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="phone" class="form-label">
+      Telefon
+    </label>
+    <input
+      type="tel"
+      id="phone"
+      name="phone"
+      class="form-input"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="subject" class="form-label">
+      Betreff <span class="required">*</span>
+    </label>
+    <select
+      id="subject"
+      name="subject"
+      class="form-input"
+      required
+      aria-required="true"
+    >
+      <option value="">Bitte wählen...</option>
+      <option value="artwork">Interesse an einem Kunstwerk</option>
+      <option value="commission">Auftragsarbeit</option>
+      <option value="workshop">Workshop-Anfrage</option>
+      <option value="general">Allgemeine Anfrage</option>
+    </select>
+    <span class="form-error" data-error="subject"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="message" class="form-label">
+      Nachricht <span class="required">*</span>
+    </label>
+    <textarea
+      id="message"
+      name="message"
+      class="form-input"
+      rows="6"
+      required
+      aria-required="true"
+    ></textarea>
+    <span class="form-error" data-error="message"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="preferred-contact" class="form-label">
+      Bevorzugter Rückrufzeitpunkt
+    </label>
+    <input
+      type="text"
+      id="preferred-contact"
+      name="preferredContact"
+      class="form-input"
+      placeholder="z.B. Montag 14-16 Uhr"
+    />
+  </div>
+
+  <div class="form-group checkbox-group">
+    <label class="checkbox-label">
+      <input
+        type="checkbox"
+        name="privacy"
+        required
+        aria-required="true"
+      />
+      <span>
+        Ich habe die <a href="/datenschutz" target="_blank">Datenschutzerklärung</a> gelesen und akzeptiere diese. <span class="required">*</span>
+      </span>
+    </label>
+    <span class="form-error" data-error="privacy"></span>
+  </div>
+
+  <div class="form-alert" data-form-alert hidden></div>
+
+  <button type="submit" class="btn btn-primary btn-lg" data-submit-btn>
+    <span data-btn-text>Nachricht senden</span>
+    <span data-btn-loading hidden>Wird gesendet...</span>
+  </button>
+</form>
+
+<script>
+  function initContactForm() {
+    const form = document.querySelector('[data-contact-form]') as HTMLFormElement;
+    if (!form) return;
+
+    const submitBtn = form.querySelector('[data-submit-btn]') as HTMLButtonElement;
+    const btnText = form.querySelector('[data-btn-text]') as HTMLElement;
+    const btnLoading = form.querySelector('[data-btn-loading]') as HTMLElement;
+    const formAlert = form.querySelector('[data-form-alert]') as HTMLElement;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Clear previous errors
+      form.querySelectorAll('.form-error').forEach(el => {
+        el.textContent = '';
+      });
+      form.querySelectorAll('.form-input').forEach(el => {
+        el.classList.remove('error');
+      });
+      formAlert.hidden = true;
+
+      // Show loading state
+      submitBtn.disabled = true;
+      btnText.hidden = true;
+      btnLoading.hidden = false;
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          // Success
+          formAlert.innerHTML = `
+            <div class="alert alert-success">
+              <div class="alert-icon">✓</div>
+              <div class="alert-content">
+                <div class="alert-title">Nachricht gesendet!</div>
+                <div class="alert-message">Vielen Dank für Ihre Nachricht. Wir melden uns in Kürze bei Ihnen.</div>
+              </div>
+            </div>
+          `;
+          formAlert.hidden = false;
+          form.reset();
+        } else {
+          // Validation errors
+          if (result.errors) {
+            Object.entries(result.errors).forEach(([field, message]) => {
+              const errorEl = form.querySelector(`[data-error="${field}"]`);
+              const inputEl = form.querySelector(`[name="${field}"]`);
+              if (errorEl) errorEl.textContent = message as string;
+              if (inputEl) inputEl.classList.add('error');
+            });
+          }
+
+          formAlert.innerHTML = `
+            <div class="alert alert-error">
+              <div class="alert-icon">✕</div>
+              <div class="alert-content">
+                <div class="alert-message">${result.message || 'Bitte überprüfen Sie Ihre Eingaben.'}</div>
+              </div>
+            </div>
+          `;
+          formAlert.hidden = false;
+        }
+      } catch (error) {
+        formAlert.innerHTML = `
+          <div class="alert alert-error">
+            <div class="alert-icon">✕</div>
+            <div class="alert-content">
+              <div class="alert-message">Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.</div>
+            </div>
+          </div>
+        `;
+        formAlert.hidden = false;
+      } finally {
+        submitBtn.disabled = false;
+        btnText.hidden = false;
+        btnLoading.hidden = true;
+      }
+    });
+  }
+
+  initContactForm();
+  document.addEventListener('astro:page-load', initContactForm);
+</script>
+
+<style>
+  .contact-form {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .form-label {
+    font-weight: 600;
+    font-size: clamp(0.9375rem, 1.5vw, 1rem);
+  }
+
+  .required {
+    color: #dc2626;
+  }
+
+  .form-input {
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 2vw, 1.25rem);
+    font-family: inherit;
+    font-size: clamp(1rem, 1.5vw, 1.0625rem);
+    border: 2px solid var(--color-gray-300);
+    border-radius: var(--radius-md);
+    transition: border-color var(--transition-fast);
+    /* Touch target minimum 44px */
+    min-height: 44px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  /* Larger touch targets on mobile */
+  @media (max-width: 639px) {
+    .form-input {
+      min-height: 48px;
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-black);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .form-input.error {
+    border-color: #dc2626;
+  }
+
+  .form-error {
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+    color: #dc2626;
+    min-height: 1.25rem;
+  }
+
+  textarea.form-input {
+    resize: vertical;
+    min-height: 120px;
+  }
+
+  select.form-input {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+    padding-right: 3rem;
+  }
+
+  .checkbox-group {
+    gap: var(--space-2);
+  }
+
+  .checkbox-label {
+    display: flex;
+    gap: var(--space-2);
+    align-items: flex-start;
+    font-size: clamp(0.875rem, 1.5vw, 0.9375rem);
+    cursor: pointer;
+    line-height: 1.5;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+    /* Touch target minimum 20x20px for checkbox */
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+
+  .form-alert {
+    margin-top: var(--space-2);
+  }
+
+  button[type="submit"] {
+    align-self: flex-start;
+    /* Touch target minimum 44px */
+    min-height: 44px;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1.5rem, 3vw, 2rem);
+  }
+
+  /* Mobile optimizations */
+  @media (max-width: 639px) {
+    .contact-form {
+      gap: var(--space-4);
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      min-height: 48px;
+      font-size: 1rem;
+    }
+
+    .checkbox-label input[type="checkbox"] {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 640px) and (max-width: 959px) {
+    .contact-form {
+      max-width: 100%;
+    }
+  }
+</style>
+

@@ -1,0 +1,179 @@
+---
+import Layout from '../layouts/Layout.astro';
+import WorkshopCard from '../components/WorkshopCard.astro';
+import { getCollection } from 'astro:content';
+
+const workshops = await getCollection('workshops');
+const upcomingWorkshops = workshops.filter((w: any) =>
+  w.data.status === 'booking' || w.data.status === 'upcoming'
+);
+const pastWorkshops = workshops.filter((w: any) => w.data.status === 'completed');
+---
+
+<Layout
+  title="Workshops - ATELIER KL | Kreative Mal-Workshops"
+  description="Entdecken Sie Ihre Kreativität in unseren Mal-Workshops. Kleine Gruppen, persönliche Betreuung und professionelle Materialien."
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Kreative Workshops</h1>
+      <p class="page-intro">
+        Tauchen Sie ein in die Welt der abstrakten Malerei. In kleinen Gruppen mit maximal 8 Teilnehmern
+        lernen Sie verschiedene Techniken kennen und erschaffen Ihr eigenes Kunstwerk.
+      </p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <h2>Kommende Workshops</h2>
+      {upcomingWorkshops.length > 0 ? (
+        <div class="workshop-grid">
+          {upcomingWorkshops.map((workshop: any) => (
+            <WorkshopCard
+              title={workshop.data.title}
+              description={workshop.data.description}
+              date={workshop.data.date}
+              duration={workshop.data.duration}
+              location={workshop.data.location}
+              price={workshop.data.price}
+              maxParticipants={workshop.data.maxParticipants}
+              currentParticipants={workshop.data.currentParticipants}
+              status={workshop.data.status}
+              bookingUrl="/kontakt"
+            />
+          ))}
+        </div>
+      ) : (
+        <p class="empty-message">
+          Aktuell sind keine Workshops geplant. Schauen Sie bald wieder vorbei oder
+          <a href="/kontakt">kontaktieren Sie mich</a> für individuelle Workshop-Anfragen.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <section class="section bg-gray">
+    <div class="container">
+      <h2>Was Sie erwartet</h2>
+      <div class="features-grid">
+        <div class="feature">
+          <div class="feature-icon">👥</div>
+          <h3>Kleine Gruppen</h3>
+          <p>Maximal 8 Teilnehmer für intensive Betreuung</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🎨</div>
+          <h3>Professionelle Materialien</h3>
+          <p>Alle Materialien sind im Preis inbegriffen</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">☕</div>
+          <h3>Gemütliche Atmosphäre</h3>
+          <p>Getränke und Snacks während des Workshops</p>
+        </div>
+        <div class="feature">
+          <div class="feature-icon">🏠</div>
+          <h3>Ihr eigenes Werk</h3>
+          <p>Nehmen Sie Ihr Kunstwerk mit nach Hause</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-header {
+    padding: clamp(2rem, 6vw, 4rem) 0 clamp(1.5rem, 4vw, 3rem);
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .page-header h1 {
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
+  }
+
+  .page-intro {
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    color: var(--color-gray-700);
+    max-width: 70ch;
+    line-height: var(--line-height-relaxed);
+  }
+
+  .section {
+    padding: clamp(3rem, 6vw, 5rem) 0;
+  }
+
+  .bg-gray {
+    background-color: var(--color-gray-50);
+  }
+
+  .workshop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .empty-message {
+    text-align: center;
+    padding: clamp(2rem, 5vw, 4rem);
+    color: var(--color-gray-700);
+    font-size: clamp(1rem, 2vw, 1.125rem);
+    line-height: var(--line-height-relaxed);
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .feature {
+    text-align: center;
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .feature-icon {
+    font-size: clamp(2.5rem, 5vw, 3rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .feature h3 {
+    margin-bottom: var(--space-2);
+    font-size: clamp(1.125rem, 2vw, 1.25rem);
+  }
+
+  .feature p {
+    color: var(--color-gray-700);
+    font-size: clamp(0.9375rem, 1.5vw, 1rem);
+    line-height: var(--line-height-relaxed);
+  }
+
+  /* Mobile */
+  @media (max-width: 639px) {
+    .workshop-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+
+    .features-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+  }
+
+  /* Tablet */
+  @media (min-width: 640px) and (max-width: 959px) {
+    .workshop-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .features-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+

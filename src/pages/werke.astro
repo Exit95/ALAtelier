@@ -1,0 +1,145 @@
+---
+import Layout from '../layouts/Layout.astro';
+import GalleryGrid from '../components/GalleryGrid.astro';
+import FilterBar from '../components/FilterBar.astro';
+import Lightbox from '../components/Lightbox.astro';
+import { getCollection } from 'astro:content';
+
+const artworks = await getCollection('artworks');
+
+// Prepare gallery items
+const galleryItems = artworks.map(artwork => ({
+  id: artwork.id,
+  title: artwork.data.title,
+  image: '/images/placeholder-artwork.jpg',
+  technique: artwork.data.technique,
+  size: `${artwork.data.size.width}×${artwork.data.size.height} ${artwork.data.size.unit}`,
+  availability: artwork.data.availability,
+  tags: artwork.data.tags
+}));
+
+// Get unique techniques for filters
+const techniques = [...new Set(artworks.map(a => a.data.technique))];
+const techniqueOptions = techniques.map(tech => ({
+  value: tech.toLowerCase(),
+  label: tech,
+  count: artworks.filter(a => a.data.technique === tech).length
+}));
+
+// Availability filter
+const availabilityOptions = [
+  { value: 'available', label: 'Verfügbar', count: artworks.filter(a => a.data.availability === 'available').length },
+  { value: 'reserved', label: 'Reserviert', count: artworks.filter(a => a.data.availability === 'reserved').length },
+  { value: 'sold', label: 'Verkauft', count: artworks.filter(a => a.data.availability === 'sold').length }
+];
+
+const filters = [
+  {
+    label: 'Technik',
+    name: 'technique',
+    options: techniqueOptions
+  },
+  {
+    label: 'Verfügbarkeit',
+    name: 'availability',
+    options: availabilityOptions
+  }
+];
+---
+
+<Layout
+  title="Werke - ATELIER KL | Abstrakte Kunstwerke"
+  description="Entdecken Sie die Galerie abstrakter Kunstwerke von Katharina Lanvermann. Einzigartige Gemälde in verschiedenen Techniken und Formaten."
+>
+  <div class="page-header">
+    <div class="container">
+      <h1>Meine Werke</h1>
+      <p class="page-intro">
+        Jedes Kunstwerk ist ein Unikat, entstanden aus der Freude am Experimentieren mit Farben,
+        Formen und Materialien. Lassen Sie sich inspirieren.
+      </p>
+    </div>
+  </div>
+
+  <FilterBar filters={filters} />
+
+  <div class="container">
+    <GalleryGrid items={galleryItems} />
+  </div>
+
+  <Lightbox />
+
+  <!-- Filter functionality -->
+  <script>
+    function initGalleryFilter() {
+      const filterBar = document.querySelector('[data-filter-bar]');
+      const galleryItems = document.querySelectorAll('[data-gallery-item]');
+
+      if (!filterBar || !galleryItems.length) return;
+
+      filterBar.addEventListener('filterChange', ((e: CustomEvent) => {
+        const activeFilters = e.detail.filters;
+
+        galleryItems.forEach(item => {
+          const itemTechnique = item.getAttribute('data-technique')?.toLowerCase();
+          const itemAvailability = item.getAttribute('data-availability');
+
+          let show = true;
+
+          // Check technique filter
+          if (activeFilters.technique && itemTechnique !== activeFilters.technique) {
+            show = false;
+          }
+
+          // Check availability filter
+          if (activeFilters.availability && itemAvailability !== activeFilters.availability) {
+            show = false;
+          }
+
+          // Show/hide item
+          if (show) {
+            item.removeAttribute('hidden');
+          } else {
+            item.setAttribute('hidden', '');
+          }
+        });
+
+        // Check if any items are visible
+        const visibleItems = Array.from(galleryItems).filter(item => !item.hasAttribute('hidden'));
+        const emptyState = document.querySelector('.empty-state');
+        const grid = document.querySelector('[data-gallery-items]');
+
+        if (visibleItems.length === 0) {
+          if (grid) grid.setAttribute('hidden', '');
+          if (emptyState) emptyState.removeAttribute('hidden');
+        } else {
+          if (grid) grid.removeAttribute('hidden');
+          if (emptyState) emptyState.setAttribute('hidden', '');
+        }
+      }) as EventListener);
+    }
+
+    initGalleryFilter();
+    document.addEventListener('astro:page-load', initGalleryFilter);
+  </script>
+</Layout>
+
+<style>
+  .page-header {
+    padding: var(--space-8) 0 var(--space-6);
+    background-color: var(--color-gray-50);
+    border-bottom: 1px solid var(--color-gray-200);
+  }
+
+  .page-header h1 {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: var(--space-3);
+  }
+
+  .page-intro {
+    font-size: var(--font-size-lg);
+    color: var(--color-gray-700);
+    max-width: 70ch;
+  }
+</style>
+
